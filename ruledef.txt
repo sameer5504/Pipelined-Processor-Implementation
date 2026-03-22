@@ -1,0 +1,30 @@
+#ruledef
+{
+    // R-type: Rd, Rs, Rt
+    OR  R{rd}, R{rs}, R{rt}   => 0b000000 @ rd`4 @ rs`4 @ rt`4 @ 0`14
+    ADD R{rd}, R{rs}, R{rt}   => 0b000001 @ rd`4 @ rs`4 @ rt`4 @ 0`14
+    SUB R{rd}, R{rs}, R{rt}   => 0b000010 @ rd`4 @ rs`4 @ rt`4 @ 0`14
+    CMP R{rd}, R{rs}, R{rt}   => 0b000011 @ rd`4 @ rs`4 @ rt`4 @ 0`14
+
+    // I-type: Rd, Rs, Imm
+    ORI R{rd}, R{rs}, {imm}   => 0b000100 @ rd`4 @ rs`4 @ 0`4 @ imm`14
+    ADDI R{rd}, R{rs}, {imm}  => 0b000101 @ rd`4 @ rs`4 @ 0`4 @ imm`14
+
+    // Load/store: Rd, Imm(Rs)
+    LW  R{rd}, {imm}(R{rs})   => 0b000110 @ rd`4 @ rs`4 @ 0`4 @ imm`14
+    SW  R{rd}, {imm}(R{rs})   => 0b000111 @ rd`4 @ rs`4 @ 0`4 @ imm`14
+
+    // Double word operations
+    LDW R{rd}, {imm}(R{rs})   => 0b001000 @ rd`4 @ rs`4 @ 0`4 @ imm`14
+    SDW R{rd}, {imm}(R{rs})   => 0b001001 @ rd`4 @ rs`4 @ 0`4 @ imm`14
+
+    // Branches: Rs, label (PC-relative)
+    BZ  R{rs}, {label}        => 0b001010 @ 0`4 @ rs`4 @ 0`4 @ label`14
+    BGZ R{rs}, {label}        => 0b001011 @ 0`4 @ rs`4 @ 0`4 @ label`14
+    BLZ R{rs}, {label}        => 0b001100 @ 0`4 @ rs`4 @ 0`4 @ label`14
+
+    // Jump instructions
+    JR  R{rs}                 => 0b001101 @ 0`4 @ rs`4 @ 0`4 @ 0`14
+    J   {label}               => 0b001110 @ 0`4 @ 0`4 @ 0`4 @ label`14
+    CLL {label}               => 0b001111 @ 0`4 @ 0`4 @ 0`4 @ label`14
+}
